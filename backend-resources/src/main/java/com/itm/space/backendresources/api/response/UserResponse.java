@@ -1,8 +1,10 @@
 package com.itm.space.backendresources.api.response;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
 
 @Data
 public class UserResponse {

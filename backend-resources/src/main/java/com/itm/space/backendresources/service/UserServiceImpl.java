@@ -35,7 +35,9 @@ public class UserServiceImpl implements UserService {
         CredentialRepresentation password = preparePasswordRepresentation(userRequest.getPassword());
         UserRepresentation user = prepareUserRepresentation(userRequest, password);
         try {
-            Response response = keycloakClient.realm(realm).users().create(user);
+            Response response = keycloakClient.realm(realm)
+                    .users()
+                    .create(user);
             String userId = CreatedResponseUtil.getCreatedId(response);
             log.info("Created UserId: {}", userId);
         } catch (WebApplicationException ex) {
@@ -50,10 +52,23 @@ public class UserServiceImpl implements UserService {
         List<RoleRepresentation> userRoles;
         List<GroupRepresentation> userGroups;
         try {
-            userRepresentation = keycloakClient.realm(realm).users().get(String.valueOf(id)).toRepresentation();
+            userRepresentation = keycloakClient.realm(realm)
+                    .users()
+                    .get(String.valueOf(id))
+                    .toRepresentation();
+
             userRoles = keycloakClient.realm(realm)
-                    .users().get(String.valueOf(id)).roles().getAll().getRealmMappings();
-            userGroups = keycloakClient.realm(realm).users().get(String.valueOf(id)).groups();
+                    .users()
+                    .get(String.valueOf(id))
+                    .roles()
+                    .getAll()
+                    .getRealmMappings();
+
+            userGroups = keycloakClient.realm(realm)
+                    .users()
+                    .get(String.valueOf(id))
+                    .groups();
+
         } catch (RuntimeException ex) {
             log.error("Exception on \"getUserById\": ", ex);
             throw new BackendResourcesException(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
